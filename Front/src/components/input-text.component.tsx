@@ -5,7 +5,6 @@ export const InputComponent: FC<{
   setValue: Dispatch<SetStateAction<string>>;
   placeholder?: string;
   value?: string;
-  error?: string;
   minLength?: number;
   maxLength?: number;
   keyboardType?: KeyboardTypeOptions;
@@ -14,7 +13,6 @@ export const InputComponent: FC<{
   setValue,
   placeholder,
   value,
-  error,
   maxLength,
   keyboardType,
   secureTextEntry,

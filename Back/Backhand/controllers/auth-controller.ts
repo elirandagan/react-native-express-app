@@ -62,10 +62,14 @@ const Register = async (req: Request, res: Response) => {
 };
 
 const Login = async (req: Request, res: Response) => {
-  console.log("login");
   const userName = req.body.userName;
   const password = req.body.password;
-  if (userName == null || userName == "" || password == "" || password == null) {
+  if (
+    userName == null ||
+    userName == "" ||
+    password == "" ||
+    password == null
+  ) {
     return res
       .status(StatusCodes.BAD_REQUEST)
       .send({ messgae: "Enter userName & Password" });
@@ -101,42 +105,42 @@ const Login = async (req: Request, res: Response) => {
 };
 
 const RenewToken = async (req: Request, res: Response) => {
-    console.log("renewToken");
-    // validate refresh token
-    let token = req.headers["authorization"];
-    if (token == undefined || token == null) {
-      return res.sendStatus(StatusCodes.FORBIDDEN);
+  console.log("renewToken");
+  // validate refresh token
+  let token = req.headers["authorization"];
+  if (token == undefined || token == null) {
+    return res.sendStatus(StatusCodes.FORBIDDEN);
+  }
+  token = token.split(" ")[1];
+
+  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, userId) => {
+    console.log("jwt.verify");
+    if (err != null) {
+      return res.status(StatusCodes.FORBIDDEN).send({ err: err.message });
     }
-    token = token.split(" ")[1];
-  
-    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, userId) => {
-      console.log("jwt.verify");
-      if (err != null) {
-        return res.status(StatusCodes.FORBIDDEN).send({ err: err.message })
-      }
-      try {
-        const id: string = userId['_id']
-        const user2 = await User.findById(id);
-        if (user2.refreshToken != token) {
-          user2.refreshToken = "";
-          await user2.save();
-          console.log("refresh token not valid - not present in DB")
-          return res.status(StatusCodes.FORBIDDEN).send({ error: err.message });
-        }
-  
-        const [accessToken, refreshToken] = generateTokens(id)
-        user2.refreshToken = refreshToken;
+    try {
+      const id: string = userId["_id"];
+      const user2 = await User.findById(id);
+      if (user2.refreshToken != token) {
+        user2.refreshToken = "";
         await user2.save();
-        console.log("StatusCodes.OK");
-        res.status(StatusCodes.OK).send({
-          access_token: accessToken,
-          refresh_token: refreshToken,
-          _id: id,
-        });
-      } catch (err) {
+        console.log("refresh token not valid - not present in DB");
         return res.status(StatusCodes.FORBIDDEN).send({ error: err.message });
       }
-    });
-  };
+
+      const [accessToken, refreshToken] = generateTokens(id);
+      user2.refreshToken = refreshToken;
+      await user2.save();
+      console.log("StatusCodes.OK");
+      res.status(StatusCodes.OK).send({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        _id: id,
+      });
+    } catch (err) {
+      return res.status(StatusCodes.FORBIDDEN).send({ error: err.message });
+    }
+  });
+};
 
 export { Register, Login, RenewToken };

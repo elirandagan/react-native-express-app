@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://192.168.1.37:3000/";
+const baseUrl = "http://192.168.1.34:3000/";
 
 const ApiService = (() => {
   class ApiService {
@@ -46,6 +46,15 @@ const ApiService = (() => {
       return this._axios.post(`${this.baseUrl}${endPoint}`, {
         userName,
         password,
+      });
+    }
+
+    //HOME_PAGE
+    SavePost(userId, text){
+      const endPoint = "home-page/save-post";
+      return this._axios.post(`${this.baseUrl}${endPoint}`, {
+        userId,
+        text,
       });
     }
   }

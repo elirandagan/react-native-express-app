@@ -1,11 +1,12 @@
 import React, { FC } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { HeadLineComponent } from "../../components";
 
 export const ChatScreen: FC<{}> = () => {
   return (
     <ScrollView>
       <View style={styles.root}>
-        <Text>Welcome to Chat Screen!</Text>
+        <HeadLineComponent value="Welcome to Chat Screen!" />
       </View>
     </ScrollView>
   );

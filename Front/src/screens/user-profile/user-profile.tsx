@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import ApiService from "../../../services/api-service";
 import AsyncStorage from "@react-native-community/async-storage";
-import { InputComponent, ButtonComponent } from "../../components";
+import { InputComponent, ButtonComponent, HeadLineComponent } from "../../components";
 
 export const UserProfileScreen: FC<{}> = () => {
   const [userName, setUserName] = useState("");
@@ -46,7 +46,7 @@ export const UserProfileScreen: FC<{}> = () => {
   return (
     <ScrollView>
       <View style={styles.root}>
-        <Text>Welcome to User Profile Screen!</Text>
+        <HeadLineComponent value="Welcome to User Profile Screen!"/>
 
         <InputComponent placeholder="userName" value={userName} setValue={setUserName} />
 
