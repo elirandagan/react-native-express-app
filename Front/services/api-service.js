@@ -21,10 +21,10 @@ const ApiService = (() => {
       });
     }
 
-    UpdateUserProfile(email, password, userId){
+    UpdateUserProfile(userName, password, userId){
       const endPoint = "profile/update";
       return this._axios.post(`${this.baseUrl}${endPoint}`, {
-        email,
+        userName,
         password,
         userId
       });
@@ -32,19 +32,19 @@ const ApiService = (() => {
 
 
     // AUTH
-    RegisterUser(email, password) {
+    RegisterUser(userName, password) {
       const endPoint = "auth/register";
       return this._axios.post(`${this.baseUrl}${endPoint}`, {
-        email,
+        userName,
         password,
       });
     }
 
-    LoginUser(email, password) {
+    LoginUser(userName, password) {
       console.log("api-service-login");
       const endPoint = "auth/login";
       return this._axios.post(`${this.baseUrl}${endPoint}`, {
-        email,
+        userName,
         password,
       });
     }
