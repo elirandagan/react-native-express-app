@@ -39,6 +39,7 @@ const SavePost = async (req: Request, res: Response) => {
       flag: true,
     });
   } catch (err) {
+    console.log(err);
     return res.status(StatusCodes.BAD_REQUEST).send({ error: err.message });
   }
 };

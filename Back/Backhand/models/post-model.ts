@@ -4,12 +4,12 @@ const postShema = new mongoose.Schema({
     userId:{
         type: String,
         required: true,
-        unique: true
+        unique: false,
     },
     userName:{
         type: String,
         required: true,
-        unique: true,
+        unique: false,
     },
     date:{
         type: Date,

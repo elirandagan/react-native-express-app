@@ -1,15 +1,25 @@
 import React, { FC } from "react";
-import { View, StyleSheet } from "react-native";
-class Post {
-    public readonly userName?: String;
-    public readonly date?: Date;
-    public readonly text?: String;
-  }
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Post, Posts } from "../types";
+import { HeadLineComponent, PostComponent } from "./index";
 
 export const PostsComponent: FC<{
-  posts: Post[] | undefined;
+  posts: Array<Post> | undefined;
 }> = ({ posts }) => {
-  return <View></View>;
+  var testPost: Post = {
+    userName: "userName",
+    date: new Date(),
+    text: "First post here! very excited.",
+  };
+  return (
+    <View>
+      <HeadLineComponent value="Lets see what's your posts all about" />
+      <ScrollView>
+        <PostComponent post={testPost} />
+        <PostComponent post={testPost} />
+      </ScrollView >
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({});
