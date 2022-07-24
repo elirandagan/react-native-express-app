@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Types } from "mongoose";
 
+
 const generateTokens = (userId: Types.ObjectId | string): [string, string] => {
   const accessToken = jwt.sign(
     { _id: userId },

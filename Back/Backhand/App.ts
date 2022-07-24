@@ -3,7 +3,7 @@ import bodyparser from "body-parser";
 import dotenv from "dotenv";
 import { Login, Register } from "./controllers/auth-controller";
 import { GetMetaData, UpdateProfile } from "./controllers/profile-controller";
-import { SavePost } from "./controllers/home-page-controller";
+import { SavePost, GetAllPosts } from "./controllers/home-page-controller";
 
 const cors = require("cors");
 const app = express();
@@ -42,7 +42,9 @@ app.post("/profile/metaData", GetMetaData);
 
 app.post("/profile/update", UpdateProfile);
 
-app.post("/home-page/save-post", SavePost)
+app.post("/home-page/save-post", SavePost);
+
+app.get("/home-page/posts", GetAllPosts);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

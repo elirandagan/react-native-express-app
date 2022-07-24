@@ -44,17 +44,21 @@ const SavePost = async (req: Request, res: Response) => {
 };
 
 const GetAllPosts = async (req: Request, res: Response) => {
+  console.log("getAllPosts");
   try {
-    const posts = await (await Post.find()).filter(post => {
+    let posts = await Post.find();
+    let filteredPosts = posts.map((post) => {
       return {
         userName: post.userName,
         date: post.date,
-        text: post.text
+        text: post.text,
       };
     });
+    console.log(filteredPosts);
+    
     return res.status(StatusCodes.OK).send({
-      posts: posts
-    })
+      posts: filteredPosts
+    });
   } catch (err) {
     return res.status(StatusCodes.BAD_REQUEST).send({ error: err.message });
   }

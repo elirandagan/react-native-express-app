@@ -14,22 +14,21 @@ const ApiService = (() => {
     }
 
     // PROFILE
-    GetUserData(userId){
+    GetUserData(userId) {
       const endPoint = "profile/metaData";
-      return this._axios.post(`${this.baseUrl}${endPoint}`,{
-        userId
+      return this._axios.post(`${this.baseUrl}${endPoint}`, {
+        userId,
       });
     }
 
-    UpdateUserProfile(userName, password, userId){
+    UpdateUserProfile(userName, password, userId) {
       const endPoint = "profile/update";
       return this._axios.post(`${this.baseUrl}${endPoint}`, {
         userName,
         password,
-        userId
+        userId,
       });
     }
-
 
     // AUTH
     RegisterUser(userName, password) {
@@ -50,12 +49,18 @@ const ApiService = (() => {
     }
 
     //HOME_PAGE
-    SavePost(userId, text){
+    SavePost(userId, text) {
       const endPoint = "home-page/save-post";
       return this._axios.post(`${this.baseUrl}${endPoint}`, {
         userId,
         text,
       });
+    }
+
+    GetAllPosts() {
+      console.log("api-service-get-posts");
+      const endPoint = "home-page/posts";
+      return this._axios.get(`${this.baseUrl}${endPoint}`);
     }
   }
   return new ApiService();
