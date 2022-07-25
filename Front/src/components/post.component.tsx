@@ -1,15 +1,22 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Post } from "../types";
 
 export const PostComponent: FC<{
   post: Post;
 }> = ({ post }) => {
+
+  useEffect(() =>{
+    console.log(post);
+    
+  },[])
+
   return (
     <View style={styles.postContainer}>
       <Text style={styles.userName}>{post.userName}</Text>
       <Text numberOfLines={4} ellipsizeMode='tail' style={styles.text}>{post.text}</Text>
-      <Text style={styles.date}>{`${post.date?.toLocaleDateString()} ${post.date?.toLocaleTimeString()}`}</Text>
+      {/* <Text style={styles.date}>{`${post.date?.toLocaleDateString()} ${post.date?.toLocaleTimeString()}`}</Text> */}
+      <Text style={styles.date}>{post.date}</Text>
     </View>
   );
 };

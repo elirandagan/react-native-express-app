@@ -25,17 +25,19 @@ const Register = async (req: Request, res: Response) => {
   //validate userName/password
   const userName = req.body.userName;
   const password = req.body.password;
-  //console.log(`req data: ${userName} ${password}`);
+  console.log(`req data: ${userName} ${password}`);
   if (
     userName == null ||
     userName == undefined ||
     password == null ||
     password == undefined
   ) {
+    console.log("register failed validation")
     res
       .status(StatusCodes.BAD_REQUEST)
       .send({ messgae: "userName or Password was empty" });
   }
+
 
   //encrypt password
   const salt = await bcrypt.genSalt(10);
@@ -45,6 +47,8 @@ const Register = async (req: Request, res: Response) => {
     userName: userName,
     password: encryptedPassword,
   });
+
+  console.log(user)
   try {
     const newUser = await user.save();
     //login - create access token
@@ -58,6 +62,7 @@ const Register = async (req: Request, res: Response) => {
       _id: newUser._id,
     });
   } catch (err) {
+    console.log(err)
     return res.status(StatusCodes.BAD_REQUEST).send({ error: err.message });
   }
 };

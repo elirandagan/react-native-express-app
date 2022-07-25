@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import ApiService from "../../../services/api-service";
 import { PostsComponent, NewPostComponent } from "./../../components";
@@ -6,15 +6,16 @@ import { Post } from "../../types";
 import { plainToInstance } from "class-transformer";
 
 export const HomePageScreen: FC<{}> = () => {
-  const [posts, setPosts] = useState<Array<Post> | undefined>();
+  const [posts,setPosts] = useState<Post[]>();
+
   const getPosts = async () => {
     try {
       const response = await ApiService.GetAllPosts();
-      if (response) {
+      if (!!response) {
         var data = plainToInstance(Post, response.data.posts as Post[]);
-        console.log(data);
-        setPosts(data);
-        console.log(posts);
+        if (!!data) {
+          setPosts(data);
+        }
       }
     } catch (err: any) {
       console.log(err);
@@ -23,7 +24,8 @@ export const HomePageScreen: FC<{}> = () => {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  },[]);
+
   return (
     <ScrollView>
       <View style={styles.root}>
@@ -31,7 +33,7 @@ export const HomePageScreen: FC<{}> = () => {
           <NewPostComponent />
         </View>
         <View style={styles.postsSection}>
-          <PostsComponent posts={posts} />
+          {posts != undefined && <PostsComponent posts={posts} />}
         </View>
       </View>
     </ScrollView>
