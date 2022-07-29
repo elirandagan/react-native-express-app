@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { Login, Register } from "./controllers/auth-controller";
 import { GetMetaData, UpdateProfile } from "./controllers/profile-controller";
 import { SavePost, GetAllPosts } from "./controllers/home-page-controller";
+import { GetUserPosts, DeletePost, UpdatePost } from "./controllers/my-posts-contoller";
 
 const cors = require("cors");
 const app = express();
@@ -45,6 +46,12 @@ app.post("/profile/update", UpdateProfile);
 app.post("/home-page/save-post", SavePost);
 
 app.get("/home-page/posts", GetAllPosts);
+
+app.get("/my-posts/posts/:userId", GetUserPosts);
+
+app.post("/my-posts/delete", DeletePost);
+
+app.post("/my-posts/update", UpdatePost);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
