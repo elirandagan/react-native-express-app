@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://192.168.1.34:3000/";
+const baseUrl = "http://192.168.1.31:3000/";
 
 const ApiService = (() => {
   class ApiService {
@@ -61,6 +61,29 @@ const ApiService = (() => {
       console.log("api-service-get-posts");
       const endPoint = "home-page/posts";
       return this._axios.get(`${this.baseUrl}${endPoint}`);
+    }
+
+    //MY_POSTS_PAGE
+    GetUserPosts(userId) {
+      const endPoint = `my-posts/posts/${userId}`;
+      return this._axios.get(`${this.baseUrl}${endPoint}`, {
+        userId,
+      });
+    }
+
+    DeletePost(postId) {
+      const endPoint = "my-posts/delete";
+      return this._axios.post(`${this.baseUrl}${endPoint}`, {
+        postId,
+      });
+    }
+
+    UpdatePost(postId, text){
+      const endPoint = "my-posts/update";
+      return this._axios.post(`${this.baseUrl}${endPoint}`, {
+        postId,
+        text
+      });
     }
   }
   return new ApiService();

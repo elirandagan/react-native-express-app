@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TabNavigationScreens } from "../../enums";
-import { UserProfileScreen, HomePageScreen, ChatScreen } from "../index";
+import { UserProfileScreen, HomePageScreen, ChatScreen, MyPostsScreen } from "../index";
 import { Ionicons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
@@ -18,6 +18,19 @@ export const TabNavigatorScreen: FC<{}> = () => {
               name="md-home"
               size={24}
               color={ "#8e8e93"}
+            />
+          ),
+        }}
+      />
+       <Tab.Screen
+        name={TabNavigationScreens.Myposts}
+        component={MyPostsScreen}
+        options={{
+          tabBarIcon: () => (
+            <Ionicons
+              name="md-list"
+              size={24}
+              color={"#8e8e93"}
             />
           ),
         }}

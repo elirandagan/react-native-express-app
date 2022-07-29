@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   successMessage:{
     color: "green",
     fontSize: 14,
+    textAlign: "center"
   },
 
   error: {
