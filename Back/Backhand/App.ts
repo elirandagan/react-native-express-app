@@ -5,6 +5,7 @@ import { Login, Register } from "./controllers/auth-controller";
 import { GetMetaData, UpdateProfile } from "./controllers/profile-controller";
 import { SavePost, GetAllPosts } from "./controllers/home-page-controller";
 import { GetUserPosts, DeletePost, UpdatePost } from "./controllers/my-posts-contoller";
+import authMiddleware from "./middlewares/auth-middleware";
 
 const cors = require("cors");
 const app = express();
@@ -41,17 +42,17 @@ app.post("/auth/login", Login);
 
 app.post("/profile/metaData", GetMetaData);
 
-app.post("/profile/update", UpdateProfile);
+app.post("/profile/update",authMiddleware, UpdateProfile);
 
-app.post("/home-page/save-post", SavePost);
+app.post("/home-page/save-post",authMiddleware, SavePost);
 
 app.get("/home-page/posts", GetAllPosts);
 
 app.get("/my-posts/posts/:userId", GetUserPosts);
 
-app.post("/my-posts/delete", DeletePost);
+app.post("/my-posts/delete", authMiddleware, DeletePost);
 
-app.post("/my-posts/update", UpdatePost);
+app.post("/my-posts/update",authMiddleware, UpdatePost);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
