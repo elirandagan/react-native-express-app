@@ -11,6 +11,9 @@ export const PostComponent: FC<{
   const [message, SetMessage] = useState<String>("");
   const [showInput, setShowInput] = useState<Boolean>(false);
   const [newText, setNewText] = useState("");
+  const [updateText,setUpdateText] = useState<String>("Update");
+  const [deletText,setDeleteText] = useState<String>("Delete");
+
   const onDeletePost = async () => {
     if (post instanceof MyPost) {
       try {
@@ -26,7 +29,13 @@ export const PostComponent: FC<{
 
   const onUpdatePost = () => {
     if (post instanceof MyPost) {
-      setShowInput(true);
+      setShowInput(!showInput);
+      if(!!showInput){
+        setUpdateText("Update");
+      }
+      else{
+        setUpdateText("Cancel");
+      }
     }
   };
 
@@ -57,12 +66,12 @@ export const PostComponent: FC<{
         <Text style={styles.date}>{post.date}</Text>
         {post instanceof MyPost && (
           <Pressable style={styles.deleteButton} onPress={onDeletePost}>
-            <Text style={styles.deleteText}>Delete</Text>
+            <Text style={styles.deleteText}>{deletText}</Text>
           </Pressable>
         )}
         {post instanceof MyPost && (
           <Pressable style={styles.updateButton} onPress={onUpdatePost}>
-            <Text style={styles.updateText}>Update</Text>
+            <Text style={styles.updateText}>{updateText}</Text>
           </Pressable>
         )}
       </View>
