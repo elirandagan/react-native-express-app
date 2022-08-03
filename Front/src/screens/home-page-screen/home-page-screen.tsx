@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     padding: 25,
   },
   selfPostSection: {
-    width: "-webkit-fill-available",
+    width: 300,
     borderBottomColor: "#3b71f382",
     borderBottomWidth: 2,
   },

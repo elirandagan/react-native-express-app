@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 // import ApiService from "../../../services/api-service";
 import { GetUserPosts } from "../../../services";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HeadLineComponent, PostsComponent } from "../../components";
 import { MyPost } from "../../types";
 import { plainToInstance } from "class-transformer";

@@ -53,21 +53,23 @@ export const SignUpScreen: FC<{}> = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.root}>
           <Text style={styles.title}>Create an Account</Text>
-          <InputComponent placeholder="userName" value={userName} setValue={setUserName} />
+          <InputComponent minLength={"L"} placeholder="userName" value={userName} setValue={setUserName} />
           <InputComponent
             placeholder="Password"
             value={password}
             setValue={setPassword}
             secureTextEntry={true}
+            minLength={"L"}
           />
           <InputComponent
             placeholder="Repeat Password"
             value={passwordRepeat}
             setValue={setPasswordRepeat}
             secureTextEntry={true}
+            minLength={"L"}
           />
           <Text style={styles.error}>{screenError}</Text>
-          <ButtonComponent text="Register" onPress={onRegisterInPressed} />
+          <ButtonComponent minLength={"L"} text="Register" onPress={onRegisterInPressed} />
 
           <Text style={styles.text}>
             By registering, you confirm that your accept our term and private
@@ -80,6 +82,7 @@ export const SignUpScreen: FC<{}> = () => {
             text="Have an Account already? Sign in here"
             onPress={onSignIn}
             type="tertiary"
+            minLength={"L"}
           />
         </View>
       </ScrollView>

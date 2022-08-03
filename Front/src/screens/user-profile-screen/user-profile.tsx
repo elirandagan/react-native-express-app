@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 // import ApiService from "../../../services/api-service";
 import { GetUserData, UpdateUserProfile } from "../../../services";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { InputComponent, ButtonComponent, HeadLineComponent } from "../../components";
 
 export const UserProfileScreen: FC<{}> = () => {
@@ -81,8 +81,9 @@ export const UserProfileScreen: FC<{}> = () => {
 
 const styles = StyleSheet.create({
   root: {
-    alignItems: "center",
-    padding: 25,
+    // alignItems: "center",
+    padding: 40,
+    minWidth:250
   },
 
   successMessage: {

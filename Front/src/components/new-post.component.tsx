@@ -1,7 +1,6 @@
 import React, { FC, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
-// import ApiService from "../../services/api-service";
+import AsyncStorage from '@react-native-async-storage/async-storage';// import ApiService from "../../services/api-service";
 import { SavePost } from "../../services";
 import { InputComponent, HeadLineComponent, ButtonComponent } from "./index";
 

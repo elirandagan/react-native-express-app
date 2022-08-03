@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import { create } from "apisauce";
 
@@ -11,7 +11,7 @@ const getAccessToken = async () => {
 getAccessToken();
 
 const ApiService = create({
-  baseURL: "http://192.168.1.31:3000/",
+  baseURL: "http://192.168.1.102:3000/",
 });
 
 export const GetUserData = (userId: string) => {

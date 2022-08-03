@@ -7,13 +7,15 @@ export const ButtonComponent: FC<{
   type?: string;
   backColor?: string;
   fgColor?: string;
-}> = ({ onPress, text, type = "primary", backColor, fgColor }) => {
+  minLength?: string;
+}> = ({ onPress, text, type = "primary", backColor, fgColor, minLength }) => {
   return (
     <Pressable onPress={onPress}
      style={[
       styles.container,
        styles[`container_${type}`],
-       backColor ? {backgroundColor: backColor} : {}
+       backColor ? {backgroundColor: backColor} : {},
+       minLength == "L" ? {minWidth : 300} : {}
        ]} >
       <Text style={[
         styles.text,
@@ -27,7 +29,7 @@ export const ButtonComponent: FC<{
 const styles = StyleSheet.create({
 
   container:{
-    width: '100%',
+    // width: 100,
     padding: 15,
     marginVertical: 12,
     alignItems:'center',

@@ -17,7 +17,7 @@ import {
 } from "../../components";
 // import ApiService from "../../../services/api-service";
 import { LoginUser } from "../../../services/api-service";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const SignInScreen: FC<{}> = () => {
   const [userName, setUserName] = useState("");
@@ -62,16 +62,19 @@ export const SignInScreen: FC<{}> = () => {
           placeholder="userName"
           value={userName}
           setValue={setUserName}
+          minLength={"L"}
         />
         <InputComponent
           placeholder="Password"
           value={password}
           setValue={setPassword}
           secureTextEntry={true}
+          minLength={"L"}
+
         />
         <Text style={styles.error}>{screenError}</Text>
 
-        <ButtonComponent text="Sign In" onPress={onSignInPressed} />
+        <ButtonComponent text="Sign In" minLength={"L"} onPress={onSignInPressed} />
 
         <SocialButtons />
 
@@ -79,6 +82,7 @@ export const SignInScreen: FC<{}> = () => {
           text="Create Account"
           onPress={onSignUp}
           type="tertiary"
+          minLength={"L"}
         />
       </View>
     </ScrollView>
@@ -91,8 +95,12 @@ const styles = StyleSheet.create({
     padding: 25,
   },
 
+  container: {
+    minWidth: 300
+  },
+
   logo: {
-    width: "70%",
+    width: 700,
     maxHeight: 200,
     maxWidth: 300,
   },
