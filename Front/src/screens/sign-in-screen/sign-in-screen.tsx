@@ -16,8 +16,9 @@ import {
   SocialButtons,
   ScreenLoaderComponent,
 } from "../../components";
-import { LoginUser, LoginUserOnLoading } from "../../../services/api-service";
-import AsyncStorage from "@react-native-community/async-storage";
+// import ApiService from "../../../services/api-service";
+import { LoginUser,LoginUserOnLoading } from "../../../services/api-service";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const SignInScreen: FC<{}> = () => {
   const [loader, activateLoader] = useState(false);
@@ -95,20 +96,23 @@ export const SignInScreen: FC<{}> = () => {
               placeholder="userName"
               value={userName}
               setValue={setUserName}
+              minLength={"L"}
             />
             <InputComponent
               placeholder="Password"
               value={password}
               setValue={setPassword}
               secureTextEntry={true}
+              minLength={"L"}
             />
             <Text style={styles.error}>{screenError}</Text>
-            <ButtonComponent text="Sign In" onPress={onSignInPressed} />
+            <ButtonComponent minLength={"L"} text="Sign In" onPress={onSignInPressed} />
             <SocialButtons />
             <ButtonComponent
               text="Create Account"
               onPress={onSignUp}
               type="tertiary"
+              minLength={"L"}
             />
           </View>
         )}
@@ -121,6 +125,10 @@ const styles = StyleSheet.create({
   root: {
     alignItems: "center",
     padding: 25,
+  },
+
+  container: {
+    minWidth: 300
   },
 
   logo: {

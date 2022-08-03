@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import {
   InputComponent,
@@ -20,20 +20,31 @@ export const SignUpScreen: FC<{}> = () => {
   const navigation = useNavigation();
 
   const onRegisterInPressed = async () => {
-    activateLoader(true);
-    try {
-      const response = await RegisterUser(userName, password);
-      if (response.ok) {
-        console.log(response.data);
-        navigation.navigate(NavigationScreens.TabNavigator);
+    console.log("Register");
+    if (userName && password && password === passwordRepeat) {
+      activateLoader(true);
+      try {
+        const response = await RegisterUser(userName, password);
+        if (response.ok) {
+          console.log(response.data);
+          navigation.navigate(NavigationScreens.TabNavigator);
+        }
+      } catch (error: any) {
+        setScreenError(error.message);
+        console.log(error.message);
+      } finally {
+        activateLoader(false);
       }
-    } catch (error: any) {
-      setScreenError(error.message);
-      console.log(error.message);
-    } finally {
-      activateLoader(false);
     }
-  };
+    else {
+      setScreenError("Wrong credentials");
+    };
+  }
+
+  // useEffect(() => {
+  //   if(screenError)
+  //     window.location.reload(false);
+  // }, [screenError])
 
   const onSignIn = () => {
     console.log("sign In");
@@ -51,33 +62,37 @@ export const SignUpScreen: FC<{}> = () => {
             placeholder="userName"
             value={userName}
             setValue={setUserName}
+            minLength={"L"}
           />
           <InputComponent
             placeholder="Password"
             value={password}
             setValue={setPassword}
             secureTextEntry={true}
+            minLength={"L"}
           />
           <InputComponent
             placeholder="Repeat Password"
             value={passwordRepeat}
             setValue={setPasswordRepeat}
             secureTextEntry={true}
+            minLength={"L"}
           />
           <Text style={styles.error}>{screenError}</Text>
-          <ButtonComponent text="Register" onPress={onRegisterInPressed} />
-
+          <ButtonComponent text="Register" onPress={onRegisterInPressed} minLength={"L"} />
+  
           <Text style={styles.text}>
             By registering, you confirm that your accept our term and private
             policy
           </Text>
-
+  
           <SocialButtons />
-
+  
           <ButtonComponent
             text="Have an Account already? Sign in here"
             onPress={onSignIn}
             type="tertiary"
+            minLength={"L"}
           />
         </View>
       )}

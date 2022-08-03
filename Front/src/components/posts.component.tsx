@@ -3,13 +3,16 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import { Post, MyPost } from "../types";
 import { HeadLineComponent, PostComponent } from "./index";
 
+
 export const PostsComponent: FC<{
   posts: Post[] | MyPost[] | undefined;
 }> = ({ posts }) => {
+
   var key = 0;
+
   useEffect(() =>{
     console.log(posts);
-  })
+  },[posts])
 
   return (
     <View style={styles.root}>
@@ -26,6 +29,6 @@ export const PostsComponent: FC<{
 
 const styles = StyleSheet.create({
   root:{
-    width: "100%",
+    // width: 100,
   }
 });

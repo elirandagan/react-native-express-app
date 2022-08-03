@@ -5,6 +5,6 @@ export class Post  {
     this.date = date
   }
   public readonly userName?: String;
-  public readonly date?: Date;
+  public readonly date?: Date | String;
   public readonly text?: String;
 };

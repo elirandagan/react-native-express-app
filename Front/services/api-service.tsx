@@ -1,17 +1,8 @@
-import AsyncStorage from "@react-native-community/async-storage";
-// import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from "apisauce";
 
-// var access_token: string | null = "";
-// const getAccessToken = async () => {
-//   access_token = await AsyncStorage.getItem("_ACCESS_TKN");
-//   console.log(access_token);
-// };
-
-// getAccessToken();
-
 const ApiService = create({
-  baseURL: "http://192.168.1.31:3000/",
+  baseURL: "http://192.168.1.102:3000/",
 });
 
 export const GetUserData = (userId: string) => {

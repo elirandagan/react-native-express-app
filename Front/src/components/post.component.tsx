@@ -12,8 +12,8 @@ export const PostComponent: FC<{
   const [message, SetMessage] = useState<String>("");
   const [showInput, setShowInput] = useState<Boolean>(false);
   const [newText, setNewText] = useState("");
-  const [updateText,setUpdateText] = useState<String>("Update");
-  const [deletText,setDeleteText] = useState<String>("Delete");
+  const [updateText, setUpdateText] = useState<String>("Update");
+  const [deletText, setDeleteText] = useState<String>("Delete");
 
   const onDeletePost = async () => {
     if (post instanceof MyPost) {
@@ -31,10 +31,10 @@ export const PostComponent: FC<{
   const onUpdatePost = () => {
     if (post instanceof MyPost) {
       setShowInput(!showInput);
-      if(!!showInput){
+      if (!!showInput) {
         setUpdateText("Update");
       }
-      else{
+      else {
         setUpdateText("Cancel");
       }
     }
@@ -42,9 +42,9 @@ export const PostComponent: FC<{
 
   const updatePost = async () => {
     try {
-      if (post instanceof MyPost){
+      if (post instanceof MyPost) {
         const response = await UpdatePost(post._id as string, newText);
-        if(!!response){
+        if (!!response) {
           SetMessage("Your post has been updated");
         }
       }
@@ -64,7 +64,7 @@ export const PostComponent: FC<{
         <Text numberOfLines={4} ellipsizeMode="tail" style={styles.text}>
           {post.text}
         </Text>
-        <Text style={styles.date}>{post.date}</Text>
+        <Text style={styles.date}>{new Date(post?.date).toDateString()}</Text>
         {post instanceof MyPost && (
           <Pressable style={styles.deleteButton} onPress={onDeletePost}>
             <Text style={styles.deleteText}>{deletText}</Text>
@@ -92,7 +92,7 @@ export const PostComponent: FC<{
 const styles = StyleSheet.create({
   postContainer: {
     backgroundColor: "white",
-    height: "10rem",
+    // height: 100,
     borderRadius: 12,
     marginVertical: 10,
     padding: 4,
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     marginTop: 4,
-    height: "7rem",
+    height: 100,
   },
 
   date: {
@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
   deleteButton: {
     position: "absolute",
     top: "85%",
-    display: "block",
+    left: "2%"
+    // display: block,
   },
 
   deleteText: {
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "85%",
     left: "18%",
-    display: "block",
+    // display: block,
   },
 
   updateText: {

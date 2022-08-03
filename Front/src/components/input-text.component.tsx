@@ -5,7 +5,7 @@ export const InputComponent: FC<{
   setValue: Dispatch<SetStateAction<string>>;
   placeholder?: string;
   value?: string;
-  minLength?: number;
+  minLength?: string;
   maxLength?: number;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: boolean;
@@ -13,6 +13,7 @@ export const InputComponent: FC<{
   setValue,
   placeholder,
   value,
+  minLength,
   maxLength,
   keyboardType,
   secureTextEntry,
@@ -23,7 +24,7 @@ export const InputComponent: FC<{
         placeholder={placeholder}
         onChangeText={setValue}
         value={value}
-        style={style.input}
+        style={style.input, style[`input_${minLength}`]}
         maxLength={maxLength}
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
@@ -36,7 +37,7 @@ export const InputComponent: FC<{
 const style = StyleSheet.create({
 container:{
   backgroundColor: 'white',
-  width: '100%',
+  // width: 100,
   borderColor: '#61dafb6b',
   borderWidth: 1,
   borderRadius: 5,
@@ -49,4 +50,8 @@ container:{
     borderRadius: 5,
     height: 35
   },
+  
+  input_L:{
+    minWidth: 300
+  }
 });
