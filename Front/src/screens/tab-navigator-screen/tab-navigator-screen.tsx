@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TabNavigationScreens } from "../../enums";
-import { UserProfileScreen, HomePageScreen, ChatScreen, MyPostsScreen } from "../index";
+import { UserProfileScreen, HomePageScreen, ChatScreen, MyPostsScreen, LogOutScreen } from "../index";
 import { Ionicons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
@@ -49,12 +49,25 @@ export const TabNavigatorScreen: FC<{}> = () => {
         }}
       />
       <Tab.Screen
-        name={TabNavigationScreens.CharScreen}
+        name={TabNavigationScreens.ChatScreen}
         component={ChatScreen}
         options={{
           tabBarIcon: () => (
             <Ionicons
               name="md-chatbox"
+              size={24}
+              color={ "#8e8e93"}
+            />
+          ),
+        }}
+      />
+        <Tab.Screen
+        name={TabNavigationScreens.LogOut}
+        component={LogOutScreen}
+        options={{
+          tabBarIcon: () => (
+            <Ionicons
+              name="md-log-out"
               size={24}
               color={ "#8e8e93"}
             />

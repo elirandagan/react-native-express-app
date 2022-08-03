@@ -4,7 +4,8 @@ import { StatusCodes } from "http-status-codes";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Types } from "mongoose";
-
+import express from "express";
+const router = express.Router();
 
 const generateTokens = (userId: Types.ObjectId | string): [string, string] => {
   const accessToken = jwt.sign(
@@ -15,7 +16,7 @@ const generateTokens = (userId: Types.ObjectId | string): [string, string] => {
   const refreshToken = jwt.sign(
     { _id: userId },
     process.env.REFRESH_TOKEN_SECRET,
-    {}
+    { expiresIn: process.env.REFRESH_TOKEN_EXPIRATION }
   );
   return [accessToken, refreshToken];
 };
@@ -32,12 +33,11 @@ const Register = async (req: Request, res: Response) => {
     password == null ||
     password == undefined
   ) {
-    console.log("register failed validation")
+    console.log("register failed validation");
     res
       .status(StatusCodes.BAD_REQUEST)
       .send({ messgae: "userName or Password was empty" });
   }
-
 
   //encrypt password
   const salt = await bcrypt.genSalt(10);
@@ -48,7 +48,7 @@ const Register = async (req: Request, res: Response) => {
     password: encryptedPassword,
   });
 
-  console.log(user)
+  console.log(user);
   try {
     const newUser = await user.save();
     //login - create access token
@@ -62,7 +62,7 @@ const Register = async (req: Request, res: Response) => {
       _id: newUser._id,
     });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return res.status(StatusCodes.BAD_REQUEST).send({ error: err.message });
   }
 };
@@ -99,7 +99,7 @@ const Login = async (req: Request, res: Response) => {
 
     const [accessToken, refreshToken] = generateTokens(user._id);
     user.refreshToken = refreshToken;
-    
+
     await user.save();
 
     res.status(StatusCodes.OK).send({
@@ -116,10 +116,13 @@ const RenewToken = async (req: Request, res: Response) => {
   console.log("renewToken");
   // validate refresh token
   let token = req.headers["authorization"];
+
+  console.log(token);
+  
   if (token == undefined || token == null) {
     return res.sendStatus(StatusCodes.FORBIDDEN);
   }
-  token = token.split(" ")[1];
+  // token = token.split(" ")[1];
 
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, userId) => {
     console.log("jwt.verify");
@@ -151,4 +154,34 @@ const RenewToken = async (req: Request, res: Response) => {
   });
 };
 
-export { Register, Login, RenewToken };
+
+const LogOut = async (req: Request, res: Response) => {
+  const id = req.body.userId;
+  try{
+    const user = await User.findOne({ _id: id });
+    if(!!user){
+      
+      user.refreshToken = '';
+
+      await user.save();
+
+      res.status(StatusCodes.OK).send({
+        flag: true
+      });
+    }
+  }
+  catch (err) {
+    return res.status(StatusCodes.BAD_REQUEST).send({ error: err.message });
+  }
+}
+
+router.post("/register", Register);
+
+router.post("/login", Login);
+
+router.post("/login-on-loading",RenewToken);
+
+router.post("/logout", LogOut);
+
+
+export = router;

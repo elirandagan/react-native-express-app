@@ -4,14 +4,14 @@ import {
   InputComponent,
   ButtonComponent,
   SocialButtons,
+  ScreenLoaderComponent,
 } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationScreens, TabNavigationScreens } from "../../enums/index";
-// import ApiService from "../../../services/api-service";
 import { RegisterUser } from "../../../services";
 
 export const SignUpScreen: FC<{}> = () => {
-  // const [userName, setUserName] = useState("");
+  const [loader, activateLoader] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
@@ -22,7 +22,7 @@ export const SignUpScreen: FC<{}> = () => {
   const onRegisterInPressed = async () => {
     console.log("Register");
     if (userName && password && password === passwordRepeat) {
-      //validation
+      activateLoader(true);
       try {
         const response = await RegisterUser(userName, password);
         if (response.ok) {
@@ -32,6 +32,8 @@ export const SignUpScreen: FC<{}> = () => {
       } catch (error: any) {
         setScreenError(error.message);
         console.log(error.message);
+      } finally {
+        activateLoader(false);
       }
     }
     else {
@@ -39,21 +41,29 @@ export const SignUpScreen: FC<{}> = () => {
     };
   }
 
-    // useEffect(() => {
-    //   if(screenError)
-    //     window.location.reload(false);
-    // }, [screenError])
+  // useEffect(() => {
+  //   if(screenError)
+  //     window.location.reload(false);
+  // }, [screenError])
 
-    const onSignIn = () => {
-      console.log("sign In");
-      navigation.navigate(NavigationScreens.SignIn);
-    };
+  const onSignIn = () => {
+    console.log("sign In");
+    navigation.navigate(NavigationScreens.SignIn);
+  };
 
-    return (
-      <ScrollView showsVerticalScrollIndicator={false}>
+  return (
+    <ScrollView showsVerticalScrollIndicator={false}>
+      {loader ? (
+        <ScreenLoaderComponent />
+      ) : (
         <View style={styles.root}>
           <Text style={styles.title}>Create an Account</Text>
-          <InputComponent minLength={"L"} placeholder="userName" value={userName} setValue={setUserName} />
+          <InputComponent
+            placeholder="userName"
+            value={userName}
+            setValue={setUserName}
+            minLength={"L"}
+          />
           <InputComponent
             placeholder="Password"
             value={password}
@@ -69,15 +79,15 @@ export const SignUpScreen: FC<{}> = () => {
             minLength={"L"}
           />
           <Text style={styles.error}>{screenError}</Text>
-          <ButtonComponent minLength={"L"} text="Register" onPress={onRegisterInPressed} />
-
+          <ButtonComponent text="Register" onPress={onRegisterInPressed} minLength={"L"} />
+  
           <Text style={styles.text}>
             By registering, you confirm that your accept our term and private
             policy
           </Text>
-
+  
           <SocialButtons />
-
+  
           <ButtonComponent
             text="Have an Account already? Sign in here"
             onPress={onSignIn}
@@ -85,30 +95,31 @@ export const SignUpScreen: FC<{}> = () => {
             minLength={"L"}
           />
         </View>
-      </ScrollView>
-    );
-  };
+      )}
+    </ScrollView>
+  );
+};
 
-  const styles = StyleSheet.create({
-    root: {
-      alignItems: "center",
-      padding: 25,
-    },
+const styles = StyleSheet.create({
+  root: {
+    alignItems: "center",
+    padding: 25,
+  },
 
-    title: {
-      fontSize: 24,
-      fontWeight: "bold",
-      color: "#051C60",
-      margin: 10,
-    },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#051C60",
+    margin: 10,
+  },
 
-    text: {
-      color: "gray",
-      marginVertical: 10,
-    },
+  text: {
+    color: "gray",
+    marginVertical: 10,
+  },
 
-    error: {
-      color: "tomato",
-      fontSize: 14,
-    },
-  });
+  error: {
+    color: "tomato",
+    fontSize: 14,
+  },
+});

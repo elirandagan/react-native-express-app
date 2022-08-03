@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import Post from "../models/post-model";
+import authMiddleware from "./../middlewares/auth-middleware";
+import express from 'express'
+const router = express.Router()
 
 const GetUserPosts = async (req: Request, res: Response) => {
   console.log("GetUserPosts");
@@ -55,4 +58,12 @@ const UpdatePost = async (req: Request, res: Response) => {
     return res.status(StatusCodes.BAD_REQUEST).send({ error: "Didnt get postId || text" });
 };
 
-export { GetUserPosts, DeletePost, UpdatePost };
+
+router.get("/posts/:userId", GetUserPosts);
+
+router.post("/delete",authMiddleware, DeletePost);
+
+router.post("/update",authMiddleware, UpdatePost);
+
+
+export = router

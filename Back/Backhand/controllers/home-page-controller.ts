@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import User from "../models/user-model";
 import Post from "../models/post-model";
+import authMiddleware from "./../middlewares/auth-middleware";
+import express from 'express'
+const router = express.Router()
 
 const SavePost = async (req: Request, res: Response) => {
   console.log(req.body);
@@ -67,4 +70,8 @@ const GetAllPosts = async (req: Request, res: Response) => {
   }
 };
 
-export { SavePost, GetAllPosts };
+router.post("/save-post",authMiddleware, SavePost);
+
+router.get("/posts", GetAllPosts);
+
+export = router

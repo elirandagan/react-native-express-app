@@ -2,15 +2,21 @@ import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 // import ApiService from "../../../services/api-service";
 import { GetAllPosts } from "../../../services";
-import { PostsComponent, NewPostComponent } from "./../../components";
+import {
+  PostsComponent,
+  NewPostComponent,
+  ScreenLoaderComponent,
+} from "./../../components";
 import { Post } from "../../types";
 import { plainToInstance } from "class-transformer";
 
 export const HomePageScreen: FC<{}> = () => {
+  const [loader, activateLoader] = useState(false);
   const [posts, setPosts] = useState<Post[]>();
 
   useEffect(() => {
     const getPosts = async () => {
+      activateLoader(true);
       try {
         const response = await GetAllPosts();
         if (response.ok) {
@@ -21,21 +27,28 @@ export const HomePageScreen: FC<{}> = () => {
         }
       } catch (err: any) {
         console.log(err);
+      } finally {
+        activateLoader(false);
       }
-    }
+    };
     getPosts()
   }, [posts])
 
+
   return (
     <ScrollView>
-      <View style={styles.root}>
-        <View style={styles.selfPostSection}>
-          <NewPostComponent />
+      {loader ? (
+        <ScreenLoaderComponent />
+      ) : (
+        <View style={styles.root}>
+          <View style={styles.selfPostSection}>
+            <NewPostComponent />
+          </View>
+          <View style={styles.postsSection}>
+            {posts != undefined && <PostsComponent posts={posts} />}
+          </View>
         </View>
-        <View style={styles.postsSection}>
-          {posts != undefined && <PostsComponent posts={posts} />}
-        </View>
-      </View>
+      )}
     </ScrollView>
   );
 };

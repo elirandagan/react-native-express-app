@@ -1,14 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from "axios";
 import { create } from "apisauce";
-
-var access_token: string | null = "";
-const getAccessToken = async () => {
-  access_token = await AsyncStorage.getItem("_ACCESS_TKN");
-  console.log(access_token);
-};
-
-getAccessToken();
 
 const ApiService = create({
   baseURL: "http://192.168.1.102:3000/",
@@ -52,6 +43,26 @@ export const LoginUser = (userName: string, password: string) => {
   return ApiService.post("auth/login", {
     userName,
     password,
+  });
+};
+
+export const LoginUserOnLoading = (userId: string, refreshToken: string) => {
+  return ApiService.post(
+    "auth/login-on-loading",
+    {
+      userId,
+    },
+    {
+      headers: {
+        Authorization: refreshToken,
+      },
+    }
+  );
+};
+
+export const LogOut = (userId: string) => {
+  return ApiService.post("auth/logout", {
+    userId,
   });
 };
 

@@ -12,11 +12,18 @@ export const NewPostComponent: FC<{}> = () => {
   const onPressPost = async () => {
     console.log("post pressed");
     try {
-      const userId = await AsyncStorage.getItem("_USER_ID");
-      const response = await SavePost(userId as string, post);
-      console.log(response.data);
-      if (response.ok && response?.data?.flag) {
-        setMessage("Great, your post has been saved!");
+      if (!!post) {
+        const userId = await AsyncStorage.getItem("_USER_ID");
+        const response = await SavePost(userId as string, post);
+        console.log(response.data);
+        if (response.ok && response?.data?.flag) {
+          setMessage("Great, your post has been saved!");
+          setError("");
+        }
+      }
+      else{
+        setError("Enter post first, than upload it")
+        setMessage("");
       }
     } catch (err: any) {
       console.log(err);
@@ -42,14 +49,12 @@ const styles = StyleSheet.create({
   successMessage: {
     color: "green",
     fontSize: 14,
-    textAlign: "center"
-
+    textAlign: "center",
   },
 
   error: {
     color: "tomato",
     fontSize: 14,
-    textAlign: "center"
-
+    textAlign: "center",
   },
 });

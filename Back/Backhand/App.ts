@@ -1,11 +1,10 @@
 import express from "express";
 import bodyparser from "body-parser";
 import dotenv from "dotenv";
-import { Login, Register } from "./controllers/auth-controller";
-import { GetMetaData, UpdateProfile } from "./controllers/profile-controller";
-import { SavePost, GetAllPosts } from "./controllers/home-page-controller";
-import { GetUserPosts, DeletePost, UpdatePost } from "./controllers/my-posts-contoller";
-import authMiddleware from "./middlewares/auth-middleware";
+import auth_controller from "./controllers/auth-controller";
+import profile_controller from "./controllers/profile-controller";
+import home_page_controller from "./controllers/home-page-controller";
+import my_post_controller from "./controllers/my-posts-contoller";
 
 const cors = require("cors");
 const app = express();
@@ -28,31 +27,13 @@ db.once("open", () => {
 
 console.log("server is starting");
 
-app.get("/home", (req, res) => {
-  res.send("Home page");
-});
+app.use("/auth", auth_controller);;
 
-app.get("/", (req, res) => {
-  res.send("Default page");
-});
+app.use("/profile", profile_controller);
 
-app.post("/auth/register", Register);
+app.use("/home-page", home_page_controller);
 
-app.post("/auth/login", Login);
-
-app.post("/profile/metaData", GetMetaData);
-
-app.post("/profile/update",authMiddleware, UpdateProfile);
-
-app.post("/home-page/save-post",authMiddleware, SavePost);
-
-app.get("/home-page/posts", GetAllPosts);
-
-app.get("/my-posts/posts/:userId", GetUserPosts);
-
-app.post("/my-posts/delete", authMiddleware, DeletePost);
-
-app.post("/my-posts/update",authMiddleware, UpdatePost);
+app.use("/my-posts", my_post_controller);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
