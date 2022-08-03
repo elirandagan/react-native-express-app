@@ -1,22 +1,23 @@
 import React, { FC, useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
-import ApiService from "../../../services/api-service";
-import AsyncStorage from '@react-native-async-storage/async-storage'
+// import ApiService from "../../../services/api-service";
+import { GetUserData, UpdateUserProfile } from "../../../services";
+import AsyncStorage from "@react-native-community/async-storage";
 import { InputComponent, ButtonComponent, HeadLineComponent } from "../../components";
 
 export const UserProfileScreen: FC<{}> = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [repaetPassword, setRepaetPassword] = useState("");
+  const [passwordRepeat, setPasswordRepeat] = useState("");
   const [screenMessage, setScreenMessage] = useState("");
   const [screenError, setScreenError] = useState("");
 
   const getMetaData = async () => {
     const userId = await AsyncStorage.getItem("_USER_ID");
     if (!!userId) {
-      const response = await ApiService.GetUserData(userId);
-      if (!!response) {
-        setUserName(response.data.userName);
+      const response = await GetUserData(userId);
+      if (response.ok) {
+        setUserName(response?.data?.userName);
       }
     }
   };
@@ -27,10 +28,10 @@ export const UserProfileScreen: FC<{}> = () => {
       const userId = await AsyncStorage.getItem("_USER_ID");
       console.log(userId);
 
-      const response = await ApiService.UpdateUserProfile(
+      const response = await UpdateUserProfile(
         userName,
         password,
-        userId
+        userId as string
       );
       if (response.data?.flag) {
         setScreenMessage("Great, your profile has been updated!");
@@ -64,8 +65,8 @@ export const UserProfileScreen: FC<{}> = () => {
 
         <InputComponent
           placeholder="Repeat New Password"
-          value={repaetPassword}
-          setValue={setRepaetPassword}
+          value={passwordRepeat}
+          setValue={setPasswordRepeat}
           secureTextEntry={true}
         />
 

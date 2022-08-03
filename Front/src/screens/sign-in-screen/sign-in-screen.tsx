@@ -15,7 +15,8 @@ import {
   ButtonComponent,
   SocialButtons,
 } from "../../components";
-import ApiService from "../../../services/api-service";
+// import ApiService from "../../../services/api-service";
+import { LoginUser } from "../../../services/api-service";
 import AsyncStorage from "@react-native-community/async-storage";
 
 export const SignInScreen: FC<{}> = () => {
@@ -27,13 +28,16 @@ export const SignInScreen: FC<{}> = () => {
   const onSignInPressed = async () => {
     console.log("SignIn");
     try {
-      const response = await ApiService.LoginUser(userName, password);
-      console.log(response.data);
-      AsyncStorage.setItem("_ACCESS_TKN", response.data.access_token);
-      AsyncStorage.setItem("_REFRESH_TKN", response.data.refresh_token);
-      AsyncStorage.setItem("_USER_ID", response.data._id);
-      navigation.navigate(NavigationScreens.TabNavigator);
+      const response = await LoginUser(userName, password);
+      if (response.ok) {
+        console.log("sign in response");
+        console.log(response.data);
 
+        AsyncStorage.setItem("_ACCESS_TKN", response?.data?.access_token);
+        AsyncStorage.setItem("_REFRESH_TKN", response?.data?.refresh_token);
+        AsyncStorage.setItem("_USER_ID", response.data._id);
+        navigation.navigate(NavigationScreens.TabNavigator);
+      }
     } catch (error: any) {
       setScreenError(error?.response?.data?.messgae);
       console.log(error);
@@ -54,7 +58,11 @@ export const SignInScreen: FC<{}> = () => {
           style={[styles.logo, { height: height * 0.3 }]}
           resizeMode="contain"
         />
-        <InputComponent placeholder="userName" value={userName} setValue={setUserName} />
+        <InputComponent
+          placeholder="userName"
+          value={userName}
+          setValue={setUserName}
+        />
         <InputComponent
           placeholder="Password"
           value={password}
