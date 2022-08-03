@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import ApiService from "../../../services/api-service";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { InputComponent, ButtonComponent, HeadLineComponent } from "../../components";
 
 export const UserProfileScreen: FC<{}> = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [reapetPassword, setReapetPassword] = useState("");
+  const [repaetPassword, setRepaetPassword] = useState("");
   const [screenMessage, setScreenMessage] = useState("");
   const [screenError, setScreenError] = useState("");
 
@@ -23,19 +23,24 @@ export const UserProfileScreen: FC<{}> = () => {
 
   const onUpdateProfile = async () => {
     //TODO: validation
-    const userId = await AsyncStorage.getItem("_USER_ID");
-    console.log(userId);
+    if (userName && password && password === passwordRepeat) {
+      const userId = await AsyncStorage.getItem("_USER_ID");
+      console.log(userId);
 
-    const response = await ApiService.UpdateUserProfile(
-      userName,
-      password,
-      userId
-    );
-    if (response.data?.flag) {
-      setScreenMessage("Great, your profile has been updated!");
+      const response = await ApiService.UpdateUserProfile(
+        userName,
+        password,
+        userId
+      );
+      if (response.data?.flag) {
+        setScreenMessage("Great, your profile has been updated!");
+      }
+      else {
+        setScreenError("Something went wrong updating your profile")
+      }
     }
-    else{
-      setScreenError("Something went wrong updating your profile")
+    else {
+      setScreenError("Wrong credentials");
     }
   };
 
@@ -46,7 +51,7 @@ export const UserProfileScreen: FC<{}> = () => {
   return (
     <ScrollView>
       <View style={styles.root}>
-        <HeadLineComponent value="Welcome to User Profile Screen!"/>
+        <HeadLineComponent value="Welcome to User Profile Screen!" />
 
         <InputComponent placeholder="userName" value={userName} setValue={setUserName} />
 
@@ -59,8 +64,8 @@ export const UserProfileScreen: FC<{}> = () => {
 
         <InputComponent
           placeholder="Repeat New Password"
-          value={reapetPassword}
-          setValue={setReapetPassword}
+          value={repaetPassword}
+          setValue={setRepaetPassword}
           secureTextEntry={true}
         />
 
@@ -79,7 +84,7 @@ const styles = StyleSheet.create({
     padding: 25,
   },
 
-  successMessage:{
+  successMessage: {
     color: "green",
     fontSize: 14,
     textAlign: "center"

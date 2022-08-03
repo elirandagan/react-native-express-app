@@ -6,10 +6,12 @@ import { HeadLineComponent, PostComponent } from "./index";
 export const PostsComponent: FC<{
   posts: Post[] | MyPost[] | undefined;
 }> = ({ posts }) => {
+
   var key = 0;
+
   useEffect(() =>{
     console.log(posts);
-  })
+  },[posts])
 
   return (
     <View style={styles.root}>

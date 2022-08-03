@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState,useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import {
   InputComponent,
@@ -20,58 +20,67 @@ export const SignUpScreen: FC<{}> = () => {
 
   const onRegisterInPressed = async () => {
     console.log("Register");
-    //validation
-    try {
-      const response = await ApiService.RegisterUser(userName, password);
-      console.log(response.data);
-      navigation.navigate(NavigationScreens.TabNavigator);
-    } catch (error: any) {
-      setScreenError(error.message);
-      console.log(error.message);
+    if (userName && password && password === passwordRepeat){
+      //validation
+      try {
+        const response = await ApiService.RegisterUser(userName, password);
+        console.log(response.data);
+        navigation.navigate(NavigationScreens.TabNavigator);
+      } catch (error: any) {
+        setScreenError(error.message);
+        console.log(error.message);
+      }
+    }
+    else {
+      setScreenError("Wrong credentials");
     }
   };
 
-  const onSignIn = () => {
-    console.log("sign In");
-    //validation
-    navigation.navigate(NavigationScreens.SignIn);
-  };
+  // useEffect(() => {
+  //   if(screenError)
+  //     window.location.reload(false);
+  // }, [screenError])
 
-  return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.root}>
-        <Text style={styles.title}>Create an Account</Text>
-        <InputComponent placeholder="userName" value={userName} setValue={setUserName} />
-        <InputComponent
-          placeholder="Password"
-          value={password}
-          setValue={setPassword}
-          secureTextEntry={true}
-        />
-        <InputComponent
-          placeholder="Repeat Password"
-          value={passwordRepeat}
-          setValue={setPasswordRepeat}
-          secureTextEntry={true}
-        />
-        <Text style={styles.error}>{screenError}</Text>
-        <ButtonComponent text="Register" onPress={onRegisterInPressed} />
+const onSignIn = () => {
+  console.log("sign In");
+  navigation.navigate(NavigationScreens.SignIn);
+};
 
-        <Text style={styles.text}>
-          By registering, you confirm that your accept our term and private
-          policy
+return (
+  <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={styles.root}>
+      <Text style={styles.title}>Create an Account</Text>
+      <InputComponent placeholder="userName" value={userName} setValue={setUserName} />
+      <InputComponent
+        placeholder="Password"
+        value={password}
+        setValue={setPassword}
+        secureTextEntry={true}
+      />
+      <InputComponent
+        placeholder="Repeat Password"
+        value={passwordRepeat}
+        setValue={setPasswordRepeat}
+        secureTextEntry={true}
+      />
+      <Text style={styles.error}>{screenError}</Text>
+      <ButtonComponent text="Register" onPress={onRegisterInPressed} />
+
+      <Text style={styles.text}>
+        By registering, you confirm that your accept our term and private
+        policy
         </Text>
 
-        <SocialButtons />
+      <SocialButtons />
 
-        <ButtonComponent
-          text="Have an Account already? Sign in here"
-          onPress={onSignIn}
-          type="tertiary"
-        />
-      </View>
-    </ScrollView>
-  );
+      <ButtonComponent
+        text="Have an Account already? Sign in here"
+        onPress={onSignIn}
+        type="tertiary"
+      />
+    </View>
+  </ScrollView>
+);
 };
 
 const styles = StyleSheet.create({

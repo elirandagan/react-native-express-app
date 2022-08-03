@@ -8,23 +8,22 @@ import { plainToInstance } from "class-transformer";
 export const HomePageScreen: FC<{}> = () => {
   const [posts,setPosts] = useState<Post[]>();
 
-  const getPosts = async () => {
-    try {
-      const response = await ApiService.GetAllPosts();
-      if (!!response) {
-        var data = plainToInstance(Post, response.data.posts as Post[]);
-        if (!!data) {
-          setPosts(data);
+  useEffect(()=>{
+    const getPosts = async () => {
+      try {
+        const response = await ApiService.GetAllPosts();
+        if (!!response) {
+          var data = plainToInstance(Post, response.data.posts as Post[]);
+          if (!!data) {
+            setPosts(data);
+          }
         }
+      } catch (err: any) {
+        console.log(err);
       }
-    } catch (err: any) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getPosts();
-  },[]);
+    };
+    getPosts()
+  },[posts])
 
   return (
     <ScrollView>
