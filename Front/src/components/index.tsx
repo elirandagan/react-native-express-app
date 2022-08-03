@@ -5,3 +5,4 @@ export * from "./head-line.component";
 export * from "./posts.component";
 export * from "./new-post.component";
 export * from "./post.component"
+export * from "./screen-loader.component"
