@@ -13,16 +13,22 @@ import { plainToInstance } from "class-transformer";
 export const HomePageScreen: FC<{}> = () => {
   const [loader, activateLoader] = useState(false);
   const [posts, setPosts] = useState<Post[]>();
+  const [postsLength, setPostsLength] = useState(0);
 
   useEffect(() => {
     const getPosts = async () => {
-      activateLoader(true);
+      if (postsLength !== posts?.length) {
+        activateLoader(true);
+      }
       try {
         const response = await GetAllPosts();
         if (response.ok) {
           var data = plainToInstance(Post, response?.data?.posts as Post[]);
           if (!!data) {
             setPosts(data);
+            if (data.length !== postsLength) {
+              setPostsLength(posts?.length ? posts.length : 0);
+            }
           }
         }
       } catch (err: any) {
@@ -31,9 +37,8 @@ export const HomePageScreen: FC<{}> = () => {
         activateLoader(false);
       }
     };
-    getPosts()
-  }, [posts])
-
+    getPosts();
+  }, [posts]);
 
   return (
     <ScrollView>
@@ -42,7 +47,7 @@ export const HomePageScreen: FC<{}> = () => {
       ) : (
         <View style={styles.root}>
           <View style={styles.selfPostSection}>
-            <NewPostComponent />
+            <NewPostComponent  />
           </View>
           <View style={styles.postsSection}>
             {posts != undefined && <PostsComponent posts={posts} />}
