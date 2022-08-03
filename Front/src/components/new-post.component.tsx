@@ -1,10 +1,11 @@
-import React, { FC, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';// import ApiService from "../../services/api-service";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // import ApiService from "../../services/api-service";
 import { SavePost } from "../../services";
 import { InputComponent, HeadLineComponent, ButtonComponent } from "./index";
 
-export const NewPostComponent: FC<{}> = () => {
+export const NewPostComponent: FC<{
+}> = () => {
   const [post, setPost] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -20,16 +21,16 @@ export const NewPostComponent: FC<{}> = () => {
           setMessage("Great, your post has been saved!");
           setError("");
         }
-      }
-      else{
-        setError("Enter post first, than upload it")
+      } else {
+        setError("Enter post first, than upload it");
         setMessage("");
       }
     } catch (err: any) {
       console.log(err);
       setError(err.message);
-    }
+    } 
   };
+
   return (
     <View>
       <HeadLineComponent value="What U want to post?" />
