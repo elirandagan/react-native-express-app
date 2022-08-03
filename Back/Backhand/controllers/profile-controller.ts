@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import bcrypt from "bcrypt";
 import User from "../models/user-model";
+import express from 'express'
+const router = express.Router()
 
 const GetMetaData = async (req: Request, res: Response) => {
   console.log("GetMetaData");
@@ -75,4 +77,8 @@ const UpdateProfile = async (req: Request, res: Response) => {
   }
 };
 
-export { GetMetaData, UpdateProfile };
+router.post('/metaData', GetMetaData);
+
+router.post('/update', UpdateProfile);
+
+export = router

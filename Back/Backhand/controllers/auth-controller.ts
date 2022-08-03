@@ -4,6 +4,8 @@ import { StatusCodes } from "http-status-codes";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Types } from "mongoose";
+import express from 'express'
+const router = express.Router()
 
 
 const generateTokens = (userId: Types.ObjectId | string): [string, string] => {
@@ -151,4 +153,8 @@ const RenewToken = async (req: Request, res: Response) => {
   });
 };
 
-export { Register, Login, RenewToken };
+router.post("/register", Register);
+
+router.post("/login", Login);
+
+export = router
