@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   View,
   Image,
@@ -16,7 +16,7 @@ import {
   SocialButtons,
 } from "../../components";
 // import ApiService from "../../../services/api-service";
-import { LoginUser } from "../../../services/api-service";
+import { LoginUser, LoginUserOnLoading } from "../../../services/api-service";
 import AsyncStorage from "@react-native-community/async-storage";
 
 export const SignInScreen: FC<{}> = () => {
@@ -24,6 +24,22 @@ export const SignInScreen: FC<{}> = () => {
   const [password, setPassword] = useState("");
   const [screenError, setScreenError] = useState("");
   const navigation = useNavigation();
+
+  const signInOnLoading = async () => {
+    try{
+      const uId = await AsyncStorage.getItem("_USER_ID");
+      const rfsTkn = await AsyncStorage.getItem("_REFRESH_TKN");
+      if(!!uId){
+        const response = await LoginUserOnLoading(uId, rfsTkn as string);
+        if(response.ok){
+          setStorage(response.data);
+          navigation.navigate(NavigationScreens.TabNavigator);
+        }
+      }
+    } catch(error){
+      console.log(error);
+    }
+  }
 
   const onSignInPressed = async () => {
     console.log("SignIn");
@@ -33,9 +49,12 @@ export const SignInScreen: FC<{}> = () => {
         console.log("sign in response");
         console.log(response.data);
 
-        AsyncStorage.setItem("_ACCESS_TKN", response?.data?.access_token);
-        AsyncStorage.setItem("_REFRESH_TKN", response?.data?.refresh_token);
-        AsyncStorage.setItem("_USER_ID", response.data._id);
+        // AsyncStorage.setItem("_ACCESS_TKN", response?.data?.access_token);
+        // AsyncStorage.setItem("_REFRESH_TKN", response?.data?.refresh_token);
+        // AsyncStorage.setItem("_USER_ID", response.data._id);
+
+        setStorage(response.data);
+
         navigation.navigate(NavigationScreens.TabNavigator);
       }
     } catch (error: any) {
@@ -44,10 +63,22 @@ export const SignInScreen: FC<{}> = () => {
     }
   };
 
+  const setStorage = (data: any) => {
+    AsyncStorage.setItem("_ACCESS_TKN", data?.access_token);
+    AsyncStorage.setItem("_REFRESH_TKN", data?.refresh_token);
+    AsyncStorage.setItem("_USER_ID", data._id);
+  }
+
   const onSignUp = () => {
     console.log("sign up");
     navigation.navigate(NavigationScreens.SignUp);
   };
+
+  useEffect(() =>{
+    signInOnLoading();
+    console.log("test");
+    
+  },[])
 
   const { height } = useWindowDimensions();
   return (
@@ -92,7 +123,7 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: "70%",
+    width: 700,
     maxHeight: 200,
     maxWidth: 300,
   },

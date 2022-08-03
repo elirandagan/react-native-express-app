@@ -27,29 +27,11 @@ db.once("open", () => {
 
 console.log("server is starting");
 
-// app.post("/auth/register", Register);
-
-// app.post("/auth/login", Login);
-
 app.use("/auth", auth_controller);;
-
-// app.post("/profile/metaData", GetMetaData);
-
-// app.post("/profile/update",authMiddleware, UpdateProfile);
 
 app.use("/profile", profile_controller);
 
-// app.post("/home-page/save-post",authMiddleware, SavePost);
-
-// app.get("/home-page/posts", GetAllPosts);
-
 app.use("/home-page", home_page_controller);
-
-// app.get("/my-posts/posts/:userId", GetUserPosts);
-
-// app.post("/my-posts/delete", authMiddleware, DeletePost);
-
-// app.post("/my-posts/update",authMiddleware, UpdatePost);
 
 app.use("/my-posts", my_post_controller);
 

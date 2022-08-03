@@ -5,3 +5,4 @@ export * from "./tab-navigator-screen";
 export * from "./user-profile-screen";
 export * from "./chat-screen";
 export * from "./my-posts-screen"
+export * from "./log-out-screen"

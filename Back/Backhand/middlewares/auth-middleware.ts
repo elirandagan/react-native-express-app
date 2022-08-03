@@ -10,17 +10,12 @@ const authMiddleware = async (req:Request,response:Response,next:NextFunction)=>
     console.log(req.headers);
     
     let token = await req.headers['authorization']
-
-    // console.log(token);
     
     if (token == undefined || token == null){
         console.log("token == undefined || token == null")
         return response.status(StatusCodes.FORBIDDEN).send({err: "token == undefined || token == null"})
     }
-    // token = token.split(' ')[1];
-    // console.log("auth middlewear pass split");
-    // console.log(token);
-    
+
     jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,userId:UserId)=>{
         if (err != null){
             console.log("jwt.verify error: " + err.message)
