@@ -7,7 +7,8 @@ import {
 } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationScreens, TabNavigationScreens } from "../../enums/index";
-import ApiService from "../../../services/api-service";
+// import ApiService from "../../../services/api-service";
+import { RegisterUser } from "../../../services";
 
 export const SignUpScreen: FC<{}> = () => {
   // const [userName, setUserName] = useState("");
@@ -22,9 +23,11 @@ export const SignUpScreen: FC<{}> = () => {
     console.log("Register");
     //validation
     try {
-      const response = await ApiService.RegisterUser(userName, password);
-      console.log(response.data);
-      navigation.navigate(NavigationScreens.TabNavigator);
+      const response = await RegisterUser(userName, password);
+      if (response.ok) {
+        console.log(response.data);
+        navigation.navigate(NavigationScreens.TabNavigator);
+      }
     } catch (error: any) {
       setScreenError(error.message);
       console.log(error.message);
@@ -41,7 +44,11 @@ export const SignUpScreen: FC<{}> = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
         <Text style={styles.title}>Create an Account</Text>
-        <InputComponent placeholder="userName" value={userName} setValue={setUserName} />
+        <InputComponent
+          placeholder="userName"
+          value={userName}
+          setValue={setUserName}
+        />
         <InputComponent
           placeholder="Password"
           value={password}

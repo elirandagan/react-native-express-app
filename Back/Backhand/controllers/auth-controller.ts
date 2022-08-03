@@ -99,7 +99,9 @@ const Login = async (req: Request, res: Response) => {
 
     const [accessToken, refreshToken] = generateTokens(user._id);
     user.refreshToken = refreshToken;
+    
     await user.save();
+
     res.status(StatusCodes.OK).send({
       access_token: accessToken,
       refresh_token: refreshToken,

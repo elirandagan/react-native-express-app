@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { View, StyleSheet, Text, Pressable } from "react-native";
-import ApiService from "../../services/api-service";
+// import ApiService from "../../services/api-service";
+import { DeletePost, UpdatePost } from "../../services";
 import { MyPost, Post } from "../types";
 import { ButtonComponent } from "./button.component";
 import { InputComponent } from "./input-text.component";
@@ -17,7 +18,7 @@ export const PostComponent: FC<{
   const onDeletePost = async () => {
     if (post instanceof MyPost) {
       try {
-        const response = await ApiService.DeletePost(post._id);
+        const response = await DeletePost(post._id as string);
         if (!!response) {
           SetMessage("Your post has been deleted");
         }
@@ -42,7 +43,7 @@ export const PostComponent: FC<{
   const updatePost = async () => {
     try {
       if (post instanceof MyPost){
-        const response = await ApiService.UpdatePost(post._id, newText);
+        const response = await UpdatePost(post._id as string, newText);
         if(!!response){
           SetMessage("Your post has been updated");
         }
@@ -140,6 +141,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-function updateState(arg0: {}): any {
-  throw new Error("Function not implemented.");
-}
