@@ -7,13 +7,6 @@ import { TabNavigatorScreen, SignUpScreen, SignInScreen } from "../screens/index
 const Stack = createNativeStackNavigator();
 
 export const Navigation: FC<{}> = () => {
-  // const fetchApi = async () => {
-  // };
-
-  // useEffect(() => {
-  //   fetchApi();
-  // }, []);
-
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>

@@ -19,10 +19,12 @@ const SavePost = async (req: Request, res: Response) => {
       .send({ messgae: "Add some text to your post" });
   }
 
+  console.log("post.id= " + post.userId);
+  
   if (post.userId == null || post.userId == undefined) {
     res
       .status(StatusCodes.BAD_REQUEST)
-      .send({ message: "There was problem finding the user" });
+      .send({ message: "There was problem finding the user by Id" });
   }
 
   try {
@@ -30,7 +32,7 @@ const SavePost = async (req: Request, res: Response) => {
     if (user == null) {
       return res
         .status(StatusCodes.BAD_REQUEST)
-        .send({ messgae: "There was problem finding the user" });
+        .send({ messgae: "There was problem saving the user" });
     }
     post.userName = user.userName;
 

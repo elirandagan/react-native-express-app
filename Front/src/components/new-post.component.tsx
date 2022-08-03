@@ -1,7 +1,8 @@
 import React, { FC, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
-import ApiService from "../../services/api-service";
+// import ApiService from "../../services/api-service";
+import { SavePost } from "../../services";
 import { InputComponent, HeadLineComponent, ButtonComponent } from "./index";
 
 export const NewPostComponent: FC<{}> = () => {
@@ -13,9 +14,9 @@ export const NewPostComponent: FC<{}> = () => {
     console.log("post pressed");
     try {
       const userId = await AsyncStorage.getItem("_USER_ID");
-      const response = await ApiService.SavePost(userId, post);
+      const response = await SavePost(userId as string, post);
       console.log(response.data);
-      if (response.data.flag) {
+      if (response.ok && response?.data?.flag) {
         setMessage("Great, your post has been saved!");
       }
     } catch (err: any) {
