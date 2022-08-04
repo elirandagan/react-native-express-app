@@ -14,6 +14,14 @@ export const MyPostsScreen: FC<{}> = () => {
   const [loader, activateLoader] = useState(false);
   const [posts, setPosts] = useState<MyPost[]>();
   const [postsLength, setPostsLength] = useState(0);
+  const [test,setTest] = useState(false);
+
+  const trigerPost = () => {
+    setInterval(() => {
+      setTest(!test);
+      console.log(test);
+    }, 1500);
+  };
 
   useEffect(() => {
     const getUserPosts = async () => {
@@ -40,7 +48,7 @@ export const MyPostsScreen: FC<{}> = () => {
       }
     };
     getUserPosts();
-  }, [posts]);
+  }, [test]);
 
   return (
     <ScrollView>
@@ -50,7 +58,7 @@ export const MyPostsScreen: FC<{}> = () => {
         <View style={styles.root}>
           <HeadLineComponent value="My Posts" />
           <View style={styles.postsSection}>
-            {posts != undefined && <PostsComponent posts={posts} />}
+            {posts != undefined && <PostsComponent posts={posts} callback={trigerPost} />}
           </View>
         </View>
       )}

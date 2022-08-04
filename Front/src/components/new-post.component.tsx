@@ -1,11 +1,18 @@
-import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { View, StyleSheet, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // import ApiService from "../../services/api-service";
 import { SavePost } from "../../services";
 import { InputComponent, HeadLineComponent, ButtonComponent } from "./index";
 
 export const NewPostComponent: FC<{
-}> = () => {
+  callback?: () => void;
+}> = (callback) => {
   const [post, setPost] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -17,6 +24,9 @@ export const NewPostComponent: FC<{
         const userId = await AsyncStorage.getItem("_USER_ID");
         const response = await SavePost(userId as string, post);
         if (response.ok) {
+          if (callback) {
+            callback.callback();
+          }
           setMessage("Great, your post has been saved!");
           setError("");
         }
@@ -27,7 +37,7 @@ export const NewPostComponent: FC<{
     } catch (err: any) {
       console.log(err);
       setError(err.message);
-    } 
+    }
   };
 
   return (

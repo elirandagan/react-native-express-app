@@ -5,13 +5,18 @@ import { HeadLineComponent, PostComponent } from "./index";
 
 
 export const PostsComponent: FC<{
+  callback?: () => void;
   posts: Post[] | MyPost[] | undefined;
-}> = ({ posts }) => {
+}> = ({ posts, callback }) => {
 
   var key = 0;
 
   useEffect(() =>{
     console.log(posts);
+    if(callback){
+      console.log("posts callback");
+      
+    }
   },[posts])
 
   return (
@@ -20,7 +25,7 @@ export const PostsComponent: FC<{
       
       <ScrollView>
         {posts?.map((post) => (
-          <PostComponent key={++key} post={post} />
+          <PostComponent key={++key} post={post} callback={callback} />
         ))}
       </ScrollView>
     </View>

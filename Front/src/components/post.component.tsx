@@ -7,7 +7,8 @@ import { InputComponent } from "./input-text.component";
 
 export const PostComponent: FC<{
   post: Post | MyPost;
-}> = ({ post }) => {
+  callback?: () => void;
+}> = ({ post, callback }) => {
   const [message, SetMessage] = useState<String>("");
   const [showInput, setShowInput] = useState<Boolean>(false);
   const [newText, setNewText] = useState("");
@@ -19,6 +20,9 @@ export const PostComponent: FC<{
       try {
         const response = await DeletePost(post._id as string);
         if (!!response) {
+          if (callback) {
+            callback();
+          }
           SetMessage("Your post has been deleted");
         }
       } catch (err: any) {
@@ -32,8 +36,7 @@ export const PostComponent: FC<{
       setShowInput(!showInput);
       if (!!showInput) {
         setUpdateText("Update");
-      }
-      else {
+      } else {
         setUpdateText("Cancel");
       }
     }
@@ -44,6 +47,10 @@ export const PostComponent: FC<{
       if (post instanceof MyPost) {
         const response = await UpdatePost(post._id as string, newText);
         if (!!response) {
+          if (callback) {
+            console.log("callbak");
+            callback();
+          }
           SetMessage("Your post has been updated");
         }
       }
@@ -63,7 +70,9 @@ export const PostComponent: FC<{
         <Text numberOfLines={4} ellipsizeMode="tail" style={styles.text}>
           {post.text}
         </Text>
-        <Text style={styles.date}>{new Date(post?.date as Date).toDateString()}</Text>
+        <Text style={styles.date}>
+          {new Date(post?.date as Date).toDateString()}
+        </Text>
         {post instanceof MyPost && (
           <Pressable style={styles.deleteButton} onPress={onDeletePost}>
             <Text style={styles.deleteText}>{deletText}</Text>
@@ -82,7 +91,13 @@ export const PostComponent: FC<{
           setValue={setNewText}
         />
       )}
-      {!!showInput && <ButtonComponent text="Update Post" backColor="#0074b6" onPress={updatePost} />}
+      {!!showInput && (
+        <ButtonComponent
+          text="Update Post"
+          backColor="#0074b6"
+          onPress={updatePost}
+        />
+      )}
       <Text style={styles.successMessage}>{message}</Text>
     </View>
   );
@@ -117,7 +132,7 @@ const styles = StyleSheet.create({
   deleteButton: {
     position: "absolute",
     top: "85%",
-    left: "2%"
+    left: "2%",
     // display: block,
   },
 
