@@ -27,7 +27,7 @@ export const SignUpScreen: FC<{}> = () => {
         const response = await RegisterUser(userName, password);
         if (response.ok) {
           console.log(response.data);
-          navigation.navigate(NavigationScreens.TabNavigator);
+          navigation.navigate(NavigationScreens.TabNavigator as any);
         }
       } catch (error: any) {
         setScreenError(error.message);
@@ -41,14 +41,9 @@ export const SignUpScreen: FC<{}> = () => {
     };
   }
 
-  // useEffect(() => {
-  //   if(screenError)
-  //     window.location.reload(false);
-  // }, [screenError])
-
   const onSignIn = () => {
     console.log("sign In");
-    navigation.navigate(NavigationScreens.SignIn);
+    navigation.navigate(NavigationScreens.SignIn as any);
   };
 
   return (

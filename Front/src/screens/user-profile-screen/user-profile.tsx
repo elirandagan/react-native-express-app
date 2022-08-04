@@ -19,7 +19,8 @@ export const UserProfileScreen: FC<{}> = () => {
       if (!!userId) {
         const response = await GetUserData(userId);
         if (response.ok) {
-          setUserName(response?.data?.userName);
+          var resData : any =  response?.data
+          setUserName(resData?.userName);
         }
       }
     } catch (error) {
@@ -38,13 +39,13 @@ export const UserProfileScreen: FC<{}> = () => {
       activateLoader(true);
       try {
         const userId = await AsyncStorage.getItem("_USER_ID");
-        console.log(userId);
         const response = await UpdateUserProfile(
           userName,
           password,
           userId as string
         );
-        if (response?.data?.flag) {
+        var resData : any = response?.data;
+        if (resData?.flag) {
           setScreenMessage("Great, your profile has been updated!");
         } else {
           setScreenError("Something went wrong updating your profile");

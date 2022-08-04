@@ -23,7 +23,8 @@ export const HomePageScreen: FC<{}> = () => {
       try {
         const response = await GetAllPosts();
         if (response.ok) {
-          var data = plainToInstance(Post, response?.data?.posts as Post[]);
+          var resData : any = response?.data;
+          var data = plainToInstance(Post, resData?.posts as Post[]);
           if (!!data) {
             setPosts(data);
             if (data.length !== postsLength) {

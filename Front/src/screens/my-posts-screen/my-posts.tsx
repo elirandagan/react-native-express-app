@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
-// import ApiService from "../../../services/api-service";
 import { GetUserPosts } from "../../../services";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -25,7 +24,8 @@ export const MyPostsScreen: FC<{}> = () => {
         const userId = await AsyncStorage.getItem("_USER_ID");
         const response = await GetUserPosts(userId as string);
         if (response.ok) {
-          var data = plainToInstance(MyPost, response?.data?.posts as MyPost[]);
+          var resData: any =  response?.data;
+          var data = plainToInstance(MyPost, resData?.posts as MyPost[]);
           if (!!data) {
             setPosts(data);
             if (data.length !== postsLength) {
