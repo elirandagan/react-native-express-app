@@ -8,7 +8,7 @@ import {
   Text,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Logo from "../../../assets/Logo.png";
+import Logo  from "../../../assets/Logo.png";
 import { NavigationScreens } from "../../enums/index";
 import {
   InputComponent,
@@ -16,7 +16,6 @@ import {
   SocialButtons,
   ScreenLoaderComponent,
 } from "../../components";
-// import ApiService from "../../../services/api-service";
 import { LoginUser,LoginUserOnLoading } from "../../../services/api-service";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -36,7 +35,7 @@ export const SignInScreen: FC<{}> = () => {
         const response = await LoginUserOnLoading(uId, rfsTkn as string);
         if (response.ok) {
           setStorage(response.data);
-          navigation.navigate(NavigationScreens.TabNavigator);
+          navigation.navigate(NavigationScreens.TabNavigator as any);
         }
       }
     } catch (error) {
@@ -55,7 +54,7 @@ export const SignInScreen: FC<{}> = () => {
 
         setStorage(response.data);
 
-        navigation.navigate(NavigationScreens.TabNavigator);
+        navigation.navigate(NavigationScreens.TabNavigator as any);
       }
     } catch (error: any) {
       setScreenError(error?.response?.data?.messgae);
@@ -71,7 +70,7 @@ export const SignInScreen: FC<{}> = () => {
 
   const onSignUp = () => {
     console.log("sign up");
-    navigation.navigate(NavigationScreens.SignUp);
+    navigation.navigate(NavigationScreens.SignUp as any);
   };
 
   useEffect(() => {

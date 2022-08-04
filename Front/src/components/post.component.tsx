@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
 import { View, StyleSheet, Text, Pressable } from "react-native";
-// import ApiService from "../../services/api-service";
 import { DeletePost, UpdatePost } from "../../services";
 import { MyPost, Post } from "../types";
 import { ButtonComponent } from "./button.component";
@@ -64,7 +63,7 @@ export const PostComponent: FC<{
         <Text numberOfLines={4} ellipsizeMode="tail" style={styles.text}>
           {post.text}
         </Text>
-        <Text style={styles.date}>{new Date(post?.date).toDateString()}</Text>
+        <Text style={styles.date}>{new Date(post?.date as Date).toDateString()}</Text>
         {post instanceof MyPost && (
           <Pressable style={styles.deleteButton} onPress={onDeletePost}>
             <Text style={styles.deleteText}>{deletText}</Text>

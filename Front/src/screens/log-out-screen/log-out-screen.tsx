@@ -18,7 +18,7 @@ export const LogOutScreen: FC<{}> = () => {
         const response = await LogOut(userId);
         if (!!response) {
           AsyncStorage.clear();
-          navigation.navigate(NavigationScreens.SignIn);
+          navigation.navigate(NavigationScreens.SignIn as any);
         }
       }
     } catch (error) {

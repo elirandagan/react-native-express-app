@@ -37,7 +37,6 @@ export const InputComponent: FC<{
 const style = StyleSheet.create({
 container:{
   backgroundColor: 'white',
-  // width: 100,
   borderColor: '#61dafb6b',
   borderWidth: 1,
   borderRadius: 5,

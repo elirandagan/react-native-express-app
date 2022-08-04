@@ -16,8 +16,7 @@ export const NewPostComponent: FC<{
       if (!!post) {
         const userId = await AsyncStorage.getItem("_USER_ID");
         const response = await SavePost(userId as string, post);
-        console.log(response.data);
-        if (response.ok && response?.data?.flag) {
+        if (response.ok) {
           setMessage("Great, your post has been saved!");
           setError("");
         }
