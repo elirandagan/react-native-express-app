@@ -14,6 +14,14 @@ export const HomePageScreen: FC<{}> = () => {
   const [loader, activateLoader] = useState(false);
   const [posts, setPosts] = useState<Post[]>();
   const [postsLength, setPostsLength] = useState(0);
+  const [test, setTest] = useState(false);
+
+  const trigerPost = () => {
+    setInterval(() => {
+      setTest(!test);
+      console.log(test);
+    }, 1500);
+  };
 
   useEffect(() => {
     const getPosts = async () => {
@@ -23,7 +31,7 @@ export const HomePageScreen: FC<{}> = () => {
       try {
         const response = await GetAllPosts();
         if (response.ok) {
-          var resData : any = response?.data;
+          var resData: any = response?.data;
           var data = plainToInstance(Post, resData?.posts as Post[]);
           if (!!data) {
             setPosts(data);
@@ -39,7 +47,7 @@ export const HomePageScreen: FC<{}> = () => {
       }
     };
     getPosts();
-  }, [posts]);
+  }, [test]);
 
   return (
     <ScrollView>
@@ -48,7 +56,7 @@ export const HomePageScreen: FC<{}> = () => {
       ) : (
         <View style={styles.root}>
           <View style={styles.selfPostSection}>
-            <NewPostComponent  />
+            <NewPostComponent callback={trigerPost} />
           </View>
           <View style={styles.postsSection}>
             {posts != undefined && <PostsComponent posts={posts} />}
